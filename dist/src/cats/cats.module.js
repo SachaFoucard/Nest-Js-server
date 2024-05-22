@@ -10,11 +10,14 @@ exports.CatsModule = void 0;
 const common_1 = require("@nestjs/common");
 const cats_controller_1 = require("./cats.controller");
 const cat_service_1 = require("./cat.service");
+const mongoose_1 = require("@nestjs/mongoose");
+const cat_Schema_1 = require("../schemas/cat.Schema");
 let CatsModule = class CatsModule {
 };
 exports.CatsModule = CatsModule;
 exports.CatsModule = CatsModule = __decorate([
     (0, common_1.Module)({
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: cat_Schema_1.Cat.name, schema: cat_Schema_1.CatSchema }])],
         controllers: [cats_controller_1.CatsController],
         providers: [cat_service_1.CatsService],
         exports: [cat_service_1.CatsService]

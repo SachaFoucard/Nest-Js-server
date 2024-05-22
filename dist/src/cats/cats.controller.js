@@ -22,14 +22,21 @@ let CatsController = class CatsController {
     create(createCatDto) {
         return this.catsService.create(createCatDto);
     }
-    async findAll() {
-        return this.catsService.findAll();
-    }
     remove(id) {
         return `This action removes a #${id} cat`;
     }
-    async find(id) {
-        return id;
+    async findAll() {
+        try {
+            await this.catsService.findAll();
+        }
+        catch (error) {
+            throw new common_1.HttpException({
+                status: common_1.HttpStatus.FORBIDDEN,
+                error: 'This is a custom message',
+            }, common_1.HttpStatus.FORBIDDEN, {
+                cause: error
+            });
+        }
     }
 };
 exports.CatsController = CatsController;
@@ -41,12 +48,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CatsController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], CatsController.prototype, "findAll", null);
-__decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -54,12 +55,11 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CatsController.prototype, "remove", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], CatsController.prototype, "find", null);
+], CatsController.prototype, "findAll", null);
 exports.CatsController = CatsController = __decorate([
     (0, common_1.Controller)('cats'),
     __metadata("design:paramtypes", [cat_service_1.CatsService])
